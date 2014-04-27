@@ -5,7 +5,7 @@ Un Programme Blagueur (un faux virus un peu flippant)
 
 Pour compiler en mode Debug : 
 
-g++ -c -DSFML_STATIC cheminIncludeSFML main.cpp Screen.cpp capture.cpp lodepng.cpp
+g++ -c -DSFML_STATIC cheminIncludeSFML main.cpp Screen.cpp capture.cpp lodepng.cpp Point.cpp
 
 Linker
 
