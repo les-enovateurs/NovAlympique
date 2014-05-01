@@ -17,18 +17,17 @@ int main()
 {
 
     RenderWindow App(sf::VideoMode::getFullscreenModes()[0], "Destructor Nova",sf::Style::Fullscreen);
-    //RenderWindow App(VideoMode(1366, 728), "NovAlympe"); // Pour faire des tests
+   // RenderWindow App(VideoMode(1366, 728), "NovAlympe");
 
     App.setVisible(false);
-
-    Sleep(700);//Pour bloquer la souris
-
-    capture captures;//impression d'écran 
+    Sleep(700);
+    capture captures(Texture::getMaximumSize());
     App.setVisible(true);
+
 
     Texture backgroundT;
 
-    if(!backgroundT.loadFromFile("output.png"))//Affichage de l'image
+    if(!backgroundT.loadFromFile("output.png"))
         cerr<<"error"<<endl;
 
 
@@ -40,8 +39,8 @@ int main()
 
         // Clear screen
         App.clear();
-        screen.management();//gestion clavier + souris
-        screen.start();//lancement de la blague
+        screen.management();
+        screen.start();
 
         // Update the window
         App.display();

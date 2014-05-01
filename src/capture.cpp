@@ -10,8 +10,10 @@ using namespace std;
 #include "../include/capture.h"
 
 
-capture::capture()
+
+capture::capture(unsigned int _taille)
 {
+    taille = _taille;
     init();
 }
 
@@ -37,6 +39,18 @@ unsigned capture::decodeBMP(std::vector<unsigned char>& image, unsigned& w, unsi
   unsigned dataSize = scanlineBytes * h;
   if(bmp.size() < dataSize + pixeloffset) return 3; //BMP file too small to contain all pixels
 
+  /*if(w > taille || h > taille)
+  {
+    int ratio = 0;
+
+    ratio = (h*taille)/w;
+
+    w = taille;
+    h = ratio;
+
+    cout<<"H : "<<h<<" W : "<<w<<endl;
+
+  }*/
   image.resize(w * h * 4);
 
   /*
@@ -70,6 +84,7 @@ unsigned capture::decodeBMP(std::vector<unsigned char>& image, unsigned& w, unsi
   }
   return 0;
 }
+
 
 HRESULT capture::CaptureWindow(HWND hWnd, LPBITMAPINFO * pscr, LPVOID * pbits)
 {
@@ -111,7 +126,7 @@ HRESULT capture::CaptureWindow(HWND hWnd, LPBITMAPINFO * pscr, LPVOID * pbits)
     return S_OK;
 }
 
-int WINAPI capture::WinMain ()
+int WINAPI capture::WinMain()
 {
     BITMAPFILEHEADER header = {0};
     LPBITMAPINFO     screen = NULL;
@@ -155,7 +170,22 @@ void capture::init()
       }
 
       std::vector<unsigned char> png;
+
+  /*    if(w > taille || h > taille)
+      {
+        int ratio = 0;
+
+        ratio = (h*taille)/w;
+
+        w = taille;
+        h = ratio;
+
+        cout<<"H : "<<h<<" W : "<<w<<endl;
+
+      }*/
+
       error = lodepng::encode(png, image, w, h);
+
 
       if(error)
       {
@@ -166,6 +196,8 @@ void capture::init()
 
       lodepng::save_file(png, "output.png");
 }
+
+
 
 capture::~capture()
 {
