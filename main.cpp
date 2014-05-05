@@ -8,42 +8,56 @@ using namespace sf;
 
 
 #include "include/capture.h"
-#include "include/menu.h"
 #include "include/Screen.h"
 
 
 
 int main()
 {
+	//Start the application in full screen
+    RenderWindow app(sf::VideoMode::getFullscreenModes()[0], "NovAlympique",sf::Style::Fullscreen);
 
-    RenderWindow App(sf::VideoMode::getFullscreenModes()[0], "Destructor Nova",sf::Style::Fullscreen);
-   // RenderWindow App(VideoMode(1366, 728), "NovAlympe");
+    //Small version window (1366 x 728)
+    //RenderWindow app(VideoMode(1366, 728), "NovAlympique");
 
-    App.setVisible(false);
+    //Hide de software
+    app.setVisible(false);
+
+    //the software is waiting until the user puts the mouse correctly
     Sleep(700);
+
+    //There is a bug with small graphics cards, that why there is a new parameter to know the maximum size of the background
+    //It takes time to do a screenshot
     capture captures(Texture::getMaximumSize());
-    App.setVisible(true);
+
+    //Display the software
+    app.setVisible(true);
 
 
-    Texture backgroundT;
+    Texture backgroundT;    
 
+    //Display the screenshot and the user will think that the computer has frozen
     if(!backgroundT.loadFromFile("output.png"))
-        cerr<<"error"<<endl;
+        cerr<<"error when loading the screenshot"<<endl;
 
 
+    //the main class which display the different scary screens
+    Screen screen(app,backgroundT);
 
-    Screen screen(App,backgroundT);
-
-    while (App.isOpen())
+    while (app.isOpen())
     {
 
         // Clear screen
-        App.clear();
+        app.clear();
+
+        //Manage the mouse
         screen.management();
+
+        //Start the animation
         screen.start();
 
         // Update the window
-        App.display();
+        app.display();
     }
 
     return EXIT_SUCCESS;
